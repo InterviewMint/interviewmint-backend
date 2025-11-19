@@ -1,6 +1,5 @@
-interface Request { [key: string]: any }
-interface Response { [key: string]: any }
-interface NextFunction { (err?: any): void }
+import type { Request, Response, NextFunction } from "express";
+
 type RequestHandler = (req: Request, res: Response, next: NextFunction) => any | Promise<any>;
 
 const asyncHandler = (requestHandler: RequestHandler) => {
@@ -13,3 +12,4 @@ const asyncHandler = (requestHandler: RequestHandler) => {
 }
 
 export {asyncHandler}
+export type { Request, Response, NextFunction };
