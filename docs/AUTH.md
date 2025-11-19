@@ -2,7 +2,7 @@
 
 ## Overview
 
-This backend implements JWT-based authentication with role-based access control. Users can register with three different roles: **student**, **college**, or **company**.
+This backend implements JWT-based authentication with role-based access control (RBAC). Users can register with three different roles: **student**, **college**, or **company**.
 
 ## User Roles
 
