@@ -170,6 +170,28 @@ NODE_ENV=development
 - Zod schema validation for all inputs
 - Global error handling
 
+## Security Considerations for Production
+
+⚠️ **Important**: Before deploying to production, consider implementing:
+
+1. **Rate Limiting**: Add rate limiting middleware to prevent brute force attacks
+   - Recommended: `express-rate-limit` package
+   - Apply to login and register endpoints
+   - Example: 5 requests per minute for login attempts
+
+2. **CSRF Protection**: Implement CSRF token validation for cookie-based authentication
+   - Recommended: `csurf` package
+   - Use double-submit cookie pattern
+   - Or prefer Bearer token authentication for API-only applications
+
+3. **Additional Security Measures**:
+   - Enable HTTPS in production
+   - Set secure cookie flags (`secure: true, sameSite: 'strict'`)
+   - Implement account lockout after failed login attempts
+   - Add email verification for new registrations
+   - Implement password reset functionality with secure tokens
+   - Add audit logging for authentication events
+
 ## Example Usage
 
 ### cURL Examples
