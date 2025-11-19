@@ -1,0 +1,6 @@
+
+const addNewCompany = () => {
+
+}
+
+export { addNewCompany };

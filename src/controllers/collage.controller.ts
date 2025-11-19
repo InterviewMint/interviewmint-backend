@@ -1,0 +1,6 @@
+
+const addNewCollage = () => {
+
+}
+
+export { addNewCollage };
