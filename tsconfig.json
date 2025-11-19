@@ -21,7 +21,7 @@
     "declarationMap": true,
 
     // Input/Output Structure
-    "rootDir": "./src",
+    // "rootDir": "./src",
     "outDir": "./dist",
 
     // Stricter Typechecking Options

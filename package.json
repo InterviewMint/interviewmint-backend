@@ -19,11 +19,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^7.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "nodemon": "^3.1.11",
+    "pg": "^8.16.3",
     "zod": "^4.1.12"
   },
   "devDependencies": {
@@ -40,6 +42,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.2.6",
     "prettier": "^3.6.2",
+    "prisma": "^7.0.0",
     "ts-node-dev": "^2.0.0",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3"
