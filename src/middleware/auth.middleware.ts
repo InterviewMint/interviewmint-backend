@@ -18,8 +18,9 @@ declare global {
 export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
   try {
     // Try to get token from cookies first, then from Authorization header
-    const token = req.cookies?.accessToken || 
-                  req.header("Authorization")?.replace("Bearer ", "");
+    const token =
+      req.cookies?.accessToken ||
+      req.header("Authorization")?.replace("Bearer ", "");
 
     if (!token) {
       throw new ApiError(401, "Unauthorized request - No token provided");
@@ -38,12 +39,12 @@ export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
     if (error instanceof ApiError) {
       res.status(error.statusCode).json({
         success: false,
-        message: error.message
+        message: error.message,
       });
     } else {
       res.status(401).json({
         success: false,
-        message: "Unauthorized request"
+        message: "Unauthorized request",
       });
     }
   }
@@ -57,14 +58,14 @@ export const requireRole = (...roles: UserRole[]) => {
     if (!req.user) {
       return res.status(401).json({
         success: false,
-        message: "Unauthorized - User not authenticated"
+        message: "Unauthorized - User not authenticated",
       });
     }
 
     if (!roles.includes(req.user.role)) {
       return res.status(403).json({
         success: false,
-        message: `Forbidden - Required role(s): ${roles.join(", ")}`
+        message: `Forbidden - Required role(s): ${roles.join(", ")}`,
       });
     }
 

@@ -9,7 +9,8 @@ export interface JWTPayload {
 }
 
 // JWT secret - should be in environment variable
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key-change-in-production";
+const JWT_SECRET =
+  process.env.JWT_SECRET || "your-secret-key-change-in-production";
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "7d";
 
 /**
@@ -17,7 +18,7 @@ const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "7d";
  */
 export const generateAccessToken = (payload: JWTPayload): string => {
   return jwt.sign(payload, JWT_SECRET, {
-    expiresIn: JWT_EXPIRES_IN
+    expiresIn: JWT_EXPIRES_IN,
   } as any);
 };
 

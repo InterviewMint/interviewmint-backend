@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 export enum UserRole {
   STUDENT = "student",
   COLLEGE = "college",
-  COMPANY = "company"
+  COMPANY = "company",
 }
 
 // Zod schema for user validation
@@ -16,24 +16,24 @@ export const userSchema = z.object({
   name: z.string().min(2),
   role: z.nativeEnum(UserRole),
   createdAt: z.date(),
-  updatedAt: z.date()
+  updatedAt: z.date(),
 });
 
 export const registerUserSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6),
   name: z.string().min(2),
-  role: z.nativeEnum(UserRole)
+  role: z.nativeEnum(UserRole),
 });
 
 export const loginUserSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(6)
+  password: z.string().min(6),
 });
 
 export const updateUserSchema = z.object({
   name: z.string().min(2).optional(),
-  email: z.string().email().optional()
+  email: z.string().email().optional(),
 });
 
 // TypeScript type inferred from Zod schema
@@ -49,7 +49,7 @@ class UserStore {
   async create(data: RegisterUserInput): Promise<User> {
     const id = crypto.randomUUID();
     const hashedPassword = await bcrypt.hash(data.password, 10);
-    
+
     const user: User = {
       id,
       email: data.email,
@@ -57,7 +57,7 @@ class UserStore {
       name: data.name,
       role: data.role,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
 
     this.users.set(id, user);
@@ -65,7 +65,7 @@ class UserStore {
   }
 
   async findByEmail(email: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(user => user.email === email);
+    return Array.from(this.users.values()).find((user) => user.email === email);
   }
 
   async findById(id: string): Promise<User | undefined> {
@@ -80,14 +80,17 @@ class UserStore {
       ...user,
       ...(data.name !== undefined && { name: data.name }),
       ...(data.email !== undefined && { email: data.email }),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
 
     this.users.set(id, updatedUser);
     return updatedUser;
   }
 
-  async comparePassword(plainPassword: string, hashedPassword: string): Promise<boolean> {
+  async comparePassword(
+    plainPassword: string,
+    hashedPassword: string,
+  ): Promise<boolean> {
     return bcrypt.compare(plainPassword, hashedPassword);
   }
 

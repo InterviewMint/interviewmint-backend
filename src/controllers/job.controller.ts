@@ -1,10 +1,5 @@
+const findJob = () => {};
 
-const findJob = () => {
-
-}
-
-const addNewJob = () => {
-    
-}
+const addNewJob = () => {};
 
 export { findJob, addNewJob };

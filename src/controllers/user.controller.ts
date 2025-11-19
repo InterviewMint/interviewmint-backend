@@ -2,12 +2,12 @@ import type { Request, Response } from "express";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import { 
-  userStore, 
-  registerUserSchema, 
-  loginUserSchema, 
+import {
+  userStore,
+  registerUserSchema,
+  loginUserSchema,
   updateUserSchema,
-  type User 
+  type User,
 } from "../models/user.model.js";
 import { generateAccessToken } from "../utils/jwt.util.js";
 
@@ -16,7 +16,7 @@ const cookieOptions = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
   sameSite: "strict" as const,
-  maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
 };
 
 /**
@@ -26,9 +26,13 @@ const cookieOptions = {
 const registerUser = asyncHandler(async (req: Request, res: Response) => {
   // Validate request body
   const validationResult = registerUserSchema.safeParse(req.body);
-  
+
   if (!validationResult.success) {
-    throw new ApiError(400, "Validation failed", validationResult.error.issues.map((e: any) => e.message));
+    throw new ApiError(
+      400,
+      "Validation failed",
+      validationResult.error.issues.map((e: any) => e.message),
+    );
   }
 
   const { email, password, name, role } = validationResult.data;
@@ -46,7 +50,7 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
   const accessToken = generateAccessToken({
     id: user.id,
     email: user.email,
-    role: user.role
+    role: user.role,
   });
 
   // Remove password from response
@@ -60,8 +64,8 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
       new ApiResponse(
         201,
         { user: userWithoutPassword, accessToken },
-        "User registered successfully"
-      )
+        "User registered successfully",
+      ),
     );
 });
 
@@ -72,9 +76,13 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
 const loginUser = asyncHandler(async (req: Request, res: Response) => {
   // Validate request body
   const validationResult = loginUserSchema.safeParse(req.body);
-  
+
   if (!validationResult.success) {
-    throw new ApiError(400, "Validation failed", validationResult.error.issues.map((e: any) => e.message));
+    throw new ApiError(
+      400,
+      "Validation failed",
+      validationResult.error.issues.map((e: any) => e.message),
+    );
   }
 
   const { email, password } = validationResult.data;
@@ -86,7 +94,10 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
   }
 
   // Verify password
-  const isPasswordValid = await userStore.comparePassword(password, user.password);
+  const isPasswordValid = await userStore.comparePassword(
+    password,
+    user.password,
+  );
   if (!isPasswordValid) {
     throw new ApiError(401, "Invalid email or password");
   }
@@ -95,7 +106,7 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
   const accessToken = generateAccessToken({
     id: user.id,
     email: user.email,
-    role: user.role
+    role: user.role,
   });
 
   // Remove password from response
@@ -109,8 +120,8 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
       new ApiResponse(
         200,
         { user: userWithoutPassword, accessToken },
-        "Login successful"
-      )
+        "Login successful",
+      ),
     );
 });
 
@@ -134,9 +145,15 @@ const getUserProfile = asyncHandler(async (req: Request, res: Response) => {
   // Remove password from response
   const { password: _, ...userWithoutPassword } = user;
 
-  res.status(200).json(
-    new ApiResponse(200, userWithoutPassword, "User profile fetched successfully")
-  );
+  res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        userWithoutPassword,
+        "User profile fetched successfully",
+      ),
+    );
 });
 
 /**
@@ -152,13 +169,20 @@ const updateUserProfile = asyncHandler(async (req: Request, res: Response) => {
 
   // Validate request body
   const validationResult = updateUserSchema.safeParse(req.body);
-  
+
   if (!validationResult.success) {
-    throw new ApiError(400, "Validation failed", validationResult.error.issues.map((e: any) => e.message));
+    throw new ApiError(
+      400,
+      "Validation failed",
+      validationResult.error.issues.map((e: any) => e.message),
+    );
   }
 
   // Update user
-  const updatedUser = await userStore.update(req.user.id, validationResult.data);
+  const updatedUser = await userStore.update(
+    req.user.id,
+    validationResult.data,
+  );
   if (!updatedUser) {
     throw new ApiError(404, "User not found");
   }
@@ -166,9 +190,15 @@ const updateUserProfile = asyncHandler(async (req: Request, res: Response) => {
   // Remove password from response
   const { password: _, ...userWithoutPassword } = updatedUser;
 
-  res.status(200).json(
-    new ApiResponse(200, userWithoutPassword, "User profile updated successfully")
-  );
+  res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        userWithoutPassword,
+        "User profile updated successfully",
+      ),
+    );
 });
 
 /**
@@ -180,9 +210,13 @@ const logoutUser = asyncHandler(async (req: Request, res: Response) => {
   res
     .status(200)
     .clearCookie("accessToken", cookieOptions)
-    .json(
-      new ApiResponse(200, null, "Logout successful")
-    );
+    .json(new ApiResponse(200, null, "Logout successful"));
 });
 
-export { loginUser, registerUser, getUserProfile, updateUserProfile, logoutUser };
+export {
+  loginUser,
+  registerUser,
+  getUserProfile,
+  updateUserProfile,
+  logoutUser,
+};

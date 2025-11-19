@@ -1,6 +1,3 @@
-
-const addNewCollage = () => {
-
-}
+const addNewCollage = () => {};
 
 export { addNewCollage };

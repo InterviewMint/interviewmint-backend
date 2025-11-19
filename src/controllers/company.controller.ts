@@ -1,6 +1,3 @@
-
-const addNewCompany = () => {
-
-}
+const addNewCompany = () => {};
 
 export { addNewCompany };
