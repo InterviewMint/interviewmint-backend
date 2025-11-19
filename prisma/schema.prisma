@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// User Model - Centralized Identity & Role Management for Student, Company HR, Recruiter, TPO, College Admin, Platform Admin
+model User {
+  id String @id @default(uuid())
+
+  // Core Identity
+  fullName String
+  email    String  @unique
+  phone    String? @unique
+
+  // Authentication
+  passwordHash  String? // null if using OAuth/OTP only
+  authProvider  AuthProvider @default(PASSWORD)
+  emailVerified Boolean      @default(false)
+  phoneVerified Boolean      @default(false)
+  lastLoginAt   DateTime?
+
+  // Role & Type (Single-table polymorphic)
+  userType UserType @default(STUDENT)
+  // STUDENT | COMPANY_ADMIN | RECRUITER | COLLEGE_ADMIN | TPO | SUPER_ADMIN
+
+  // Optional structured profile (future safe)
+  profile Json? // resume, company details, metadata, etc.
+
+  // Status & Lifecycle
+  isActive       Boolean @default(true)
+  onboardingStep Int     @default(0)
+
+  // App Settings / Flags
+  languagePreference String? // "en", "hi", etc.
+  notificationPrefs  Json? // email/sms/push toggles
+  featureFlags       Json?
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum UserType {
+  STUDENT
+  RECRUITER
+  COMPANY_ADMIN
+  COLLEGE_ADMIN
+  TPO
+  SUPER_ADMIN
+}
+
+enum AuthProvider {
+  PASSWORD
+  GOOGLE
+  GITHUB
+  MICROSOFT
+  SSO
+}
+
+// ################################## //
