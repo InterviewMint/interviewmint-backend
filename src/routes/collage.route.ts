@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addNewCollage } from "../controllers/collage.controller.js";
+import { addNewCollage } from "../controllers/index.controller.js";
 
 const router = Router();
 
