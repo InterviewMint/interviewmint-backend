@@ -10,7 +10,7 @@
 */
 
 export const UserType = {
-  STUDENT: 'STUDENT',
+  CANDIDATE: 'CANDIDATE',
   RECRUITER: 'RECRUITER',
   COMPANY_ADMIN: 'COMPANY_ADMIN',
   COLLEGE_ADMIN: 'COLLEGE_ADMIN',
@@ -22,7 +22,7 @@ export type UserType = (typeof UserType)[keyof typeof UserType]
 
 
 export const AuthProvider = {
-  PASSWORD: 'PASSWORD',
+  EMAIL: 'EMAIL',
   GOOGLE: 'GOOGLE',
   GITHUB: 'GITHUB',
   MICROSOFT: 'MICROSOFT',

@@ -24,7 +24,10 @@ app.use(
 );
 
 import appRouter from "./routes/index.route.js";
+import { errorHandler } from "./utils/errorHandler.js";
 
 app.use("/api/v1", appRouter);
+
+app.use(errorHandler);
 
 export { app };

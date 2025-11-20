@@ -1,26 +1,61 @@
-import swaggerJsdoc from "swagger-jsdoc";
-import swaggerUi from "swagger-ui-express";
+import { Router } from "express";
+import { CandidateController } from "../controllers/index.controller.js";
+import { validateBody } from "../middlewares/validateDto.js";
+import {
+  CandidateRegistrationSchema,
+  CandidateLoginEmailSchema,
+  UpdateCandidateProfileSchema,
+  VerifyEmailSchema,
+  CandidateGoogleAuthSchema,
+  CandidateRefreshTokenSchema,
+} from "../dto/candidate.dto.js";
 
-const options = {
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "InterviewMint API",
-      version: "1.0.0",
-    },
-    servers: [
-      {
-        url: "/api/v1",
-        description: "Development API version",
-      },
-    ],
-  },
-  // Use project-root based glob so swagger-jsdoc finds route annotations
-  apis: ["src/routes/**/*.ts"],
-};
+const router = Router();
+const candidateController = new CandidateController();
 
-export const swaggerSpec = swaggerJsdoc(options);
-export const swaggerUiMiddleware = swaggerUi;
+router
+  .route("/register")
+  .post(
+    validateBody(CandidateRegistrationSchema),
+    candidateController.registerEmail,
+  );
+
+router
+  .route("/verify-email")
+  .post(validateBody(VerifyEmailSchema), candidateController.verifyEmail);
+
+router
+  .route("/login")
+  .post(
+    validateBody(CandidateLoginEmailSchema),
+    candidateController.loginEmail,
+  );
+
+router
+  .route("/google")
+  .post(
+    validateBody(CandidateGoogleAuthSchema),
+    candidateController.googleAuth,
+  );
+
+router
+  .route("/refresh")
+  .post(
+    validateBody(CandidateRefreshTokenSchema),
+    candidateController.refreshToken,
+  );
+
+router
+  .route("/me")
+  .get(candidateController.getUserDetails)
+  .put(
+    validateBody(UpdateCandidateProfileSchema),
+    candidateController.updateUserProfile,
+  );
+
+router.route("/logout").post(candidateController.logoutUser);
+
+export default router;
 
 /**
  * @swagger
@@ -249,4 +284,6 @@ export const swaggerUiMiddleware = swaggerUi;
  *             schema: { $ref: '#/components/schemas/ApiResponseUser' }
  *       401:
  *         description: Not authenticated.
+ */
+/**
  */

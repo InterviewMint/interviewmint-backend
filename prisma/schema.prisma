@@ -1,8 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
   provider = "prisma-client"
@@ -30,15 +28,19 @@ model User {
   twitterUrl   String?
 
   // Authentication
-  passwordHash  String? // null if using OAuth/OTP only
-  authProvider  AuthProvider @default(PASSWORD)
-  emailVerified Boolean      @default(false)
-  phoneVerified Boolean      @default(false)
-  lastLoginAt   DateTime?
+  passwordHash                    String?
+  authProvider                    AuthProvider @default(EMAIL)
+  providerId                      String?
+  emailVerified                   Boolean      @default(false)
+  phoneVerified                   Boolean      @default(false)
+  lastLoginAt                     DateTime?
+  emailVerificationToken          String?      @unique
+  emailVerificationTokenExpiresAt DateTime?
+  tokenVersion                    Int          @default(0)
 
   // Role & Type (Single-table polymorphic)
-  userType UserType @default(STUDENT)
-  // STUDENT | COMPANY_ADMIN | RECRUITER | COLLEGE_ADMIN | TPO | SUPER_ADMIN
+  userType UserType @default(CANDIDATE)
+  // CANDIDATE | COMPANY_ADMIN | RECRUITER | COLLEGE_ADMIN | TPO | SUPER_ADMIN
 
   // Optional structured profile (future safe)
   profile Json? // resume, company details, metadata, etc.
@@ -55,10 +57,12 @@ model User {
   // Timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([emailVerified, createdAt])
 }
 
 enum UserType {
-  STUDENT
+  CANDIDATE
   RECRUITER
   COMPANY_ADMIN
   COLLEGE_ADMIN
@@ -67,7 +71,7 @@ enum UserType {
 }
 
 enum AuthProvider {
-  PASSWORD
+  EMAIL
   GOOGLE
   GITHUB
   MICROSOFT

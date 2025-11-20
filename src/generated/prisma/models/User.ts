@@ -27,10 +27,12 @@ export type AggregateUser = {
 }
 
 export type UserAvgAggregateOutputType = {
+  tokenVersion: number | null
   onboardingStep: number | null
 }
 
 export type UserSumAggregateOutputType = {
+  tokenVersion: number | null
   onboardingStep: number | null
 }
 
@@ -39,11 +41,20 @@ export type UserMinAggregateOutputType = {
   fullName: string | null
   email: string | null
   phone: string | null
+  resumeUrl: string | null
+  linkedInUrl: string | null
+  githubUrl: string | null
+  portfolioUrl: string | null
+  twitterUrl: string | null
   passwordHash: string | null
   authProvider: $Enums.AuthProvider | null
+  providerId: string | null
   emailVerified: boolean | null
   phoneVerified: boolean | null
   lastLoginAt: Date | null
+  emailVerificationToken: string | null
+  emailVerificationTokenExpiresAt: Date | null
+  tokenVersion: number | null
   userType: $Enums.UserType | null
   isActive: boolean | null
   onboardingStep: number | null
@@ -57,11 +68,20 @@ export type UserMaxAggregateOutputType = {
   fullName: string | null
   email: string | null
   phone: string | null
+  resumeUrl: string | null
+  linkedInUrl: string | null
+  githubUrl: string | null
+  portfolioUrl: string | null
+  twitterUrl: string | null
   passwordHash: string | null
   authProvider: $Enums.AuthProvider | null
+  providerId: string | null
   emailVerified: boolean | null
   phoneVerified: boolean | null
   lastLoginAt: Date | null
+  emailVerificationToken: string | null
+  emailVerificationTokenExpiresAt: Date | null
+  tokenVersion: number | null
   userType: $Enums.UserType | null
   isActive: boolean | null
   onboardingStep: number | null
@@ -75,11 +95,20 @@ export type UserCountAggregateOutputType = {
   fullName: number
   email: number
   phone: number
+  resumeUrl: number
+  linkedInUrl: number
+  githubUrl: number
+  portfolioUrl: number
+  twitterUrl: number
   passwordHash: number
   authProvider: number
+  providerId: number
   emailVerified: number
   phoneVerified: number
   lastLoginAt: number
+  emailVerificationToken: number
+  emailVerificationTokenExpiresAt: number
+  tokenVersion: number
   userType: number
   profile: number
   isActive: number
@@ -94,10 +123,12 @@ export type UserCountAggregateOutputType = {
 
 
 export type UserAvgAggregateInputType = {
+  tokenVersion?: true
   onboardingStep?: true
 }
 
 export type UserSumAggregateInputType = {
+  tokenVersion?: true
   onboardingStep?: true
 }
 
@@ -106,11 +137,20 @@ export type UserMinAggregateInputType = {
   fullName?: true
   email?: true
   phone?: true
+  resumeUrl?: true
+  linkedInUrl?: true
+  githubUrl?: true
+  portfolioUrl?: true
+  twitterUrl?: true
   passwordHash?: true
   authProvider?: true
+  providerId?: true
   emailVerified?: true
   phoneVerified?: true
   lastLoginAt?: true
+  emailVerificationToken?: true
+  emailVerificationTokenExpiresAt?: true
+  tokenVersion?: true
   userType?: true
   isActive?: true
   onboardingStep?: true
@@ -124,11 +164,20 @@ export type UserMaxAggregateInputType = {
   fullName?: true
   email?: true
   phone?: true
+  resumeUrl?: true
+  linkedInUrl?: true
+  githubUrl?: true
+  portfolioUrl?: true
+  twitterUrl?: true
   passwordHash?: true
   authProvider?: true
+  providerId?: true
   emailVerified?: true
   phoneVerified?: true
   lastLoginAt?: true
+  emailVerificationToken?: true
+  emailVerificationTokenExpiresAt?: true
+  tokenVersion?: true
   userType?: true
   isActive?: true
   onboardingStep?: true
@@ -142,11 +191,20 @@ export type UserCountAggregateInputType = {
   fullName?: true
   email?: true
   phone?: true
+  resumeUrl?: true
+  linkedInUrl?: true
+  githubUrl?: true
+  portfolioUrl?: true
+  twitterUrl?: true
   passwordHash?: true
   authProvider?: true
+  providerId?: true
   emailVerified?: true
   phoneVerified?: true
   lastLoginAt?: true
+  emailVerificationToken?: true
+  emailVerificationTokenExpiresAt?: true
+  tokenVersion?: true
   userType?: true
   profile?: true
   isActive?: true
@@ -250,11 +308,20 @@ export type UserGroupByOutputType = {
   fullName: string
   email: string
   phone: string | null
+  resumeUrl: string | null
+  linkedInUrl: string | null
+  githubUrl: string | null
+  portfolioUrl: string | null
+  twitterUrl: string | null
   passwordHash: string | null
   authProvider: $Enums.AuthProvider
+  providerId: string | null
   emailVerified: boolean
   phoneVerified: boolean
   lastLoginAt: Date | null
+  emailVerificationToken: string | null
+  emailVerificationTokenExpiresAt: Date | null
+  tokenVersion: number
   userType: $Enums.UserType
   profile: runtime.JsonValue | null
   isActive: boolean
@@ -294,11 +361,20 @@ export type UserWhereInput = {
   fullName?: Prisma.StringFilter<"User"> | string
   email?: Prisma.StringFilter<"User"> | string
   phone?: Prisma.StringNullableFilter<"User"> | string | null
+  resumeUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  linkedInUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  githubUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  portfolioUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  twitterUrl?: Prisma.StringNullableFilter<"User"> | string | null
   passwordHash?: Prisma.StringNullableFilter<"User"> | string | null
   authProvider?: Prisma.EnumAuthProviderFilter<"User"> | $Enums.AuthProvider
+  providerId?: Prisma.StringNullableFilter<"User"> | string | null
   emailVerified?: Prisma.BoolFilter<"User"> | boolean
   phoneVerified?: Prisma.BoolFilter<"User"> | boolean
   lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  emailVerificationToken?: Prisma.StringNullableFilter<"User"> | string | null
+  emailVerificationTokenExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  tokenVersion?: Prisma.IntFilter<"User"> | number
   userType?: Prisma.EnumUserTypeFilter<"User"> | $Enums.UserType
   profile?: Prisma.JsonNullableFilter<"User">
   isActive?: Prisma.BoolFilter<"User"> | boolean
@@ -315,11 +391,20 @@ export type UserOrderByWithRelationInput = {
   fullName?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  resumeUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  linkedInUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  githubUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  portfolioUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  twitterUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   passwordHash?: Prisma.SortOrderInput | Prisma.SortOrder
   authProvider?: Prisma.SortOrder
+  providerId?: Prisma.SortOrderInput | Prisma.SortOrder
   emailVerified?: Prisma.SortOrder
   phoneVerified?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  emailVerificationToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  emailVerificationTokenExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  tokenVersion?: Prisma.SortOrder
   userType?: Prisma.SortOrder
   profile?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -335,15 +420,24 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   email?: string
   phone?: string
+  emailVerificationToken?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   fullName?: Prisma.StringFilter<"User"> | string
+  resumeUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  linkedInUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  githubUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  portfolioUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  twitterUrl?: Prisma.StringNullableFilter<"User"> | string | null
   passwordHash?: Prisma.StringNullableFilter<"User"> | string | null
   authProvider?: Prisma.EnumAuthProviderFilter<"User"> | $Enums.AuthProvider
+  providerId?: Prisma.StringNullableFilter<"User"> | string | null
   emailVerified?: Prisma.BoolFilter<"User"> | boolean
   phoneVerified?: Prisma.BoolFilter<"User"> | boolean
   lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  emailVerificationTokenExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  tokenVersion?: Prisma.IntFilter<"User"> | number
   userType?: Prisma.EnumUserTypeFilter<"User"> | $Enums.UserType
   profile?: Prisma.JsonNullableFilter<"User">
   isActive?: Prisma.BoolFilter<"User"> | boolean
@@ -353,18 +447,27 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   featureFlags?: Prisma.JsonNullableFilter<"User">
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-}, "id" | "email" | "phone">
+}, "id" | "email" | "phone" | "emailVerificationToken">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  resumeUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  linkedInUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  githubUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  portfolioUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  twitterUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   passwordHash?: Prisma.SortOrderInput | Prisma.SortOrder
   authProvider?: Prisma.SortOrder
+  providerId?: Prisma.SortOrderInput | Prisma.SortOrder
   emailVerified?: Prisma.SortOrder
   phoneVerified?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  emailVerificationToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  emailVerificationTokenExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  tokenVersion?: Prisma.SortOrder
   userType?: Prisma.SortOrder
   profile?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -389,11 +492,20 @@ export type UserScalarWhereWithAggregatesInput = {
   fullName?: Prisma.StringWithAggregatesFilter<"User"> | string
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   phone?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  resumeUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  linkedInUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  githubUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  portfolioUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  twitterUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   passwordHash?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   authProvider?: Prisma.EnumAuthProviderWithAggregatesFilter<"User"> | $Enums.AuthProvider
+  providerId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   emailVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   phoneVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   lastLoginAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  emailVerificationToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  emailVerificationTokenExpiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  tokenVersion?: Prisma.IntWithAggregatesFilter<"User"> | number
   userType?: Prisma.EnumUserTypeWithAggregatesFilter<"User"> | $Enums.UserType
   profile?: Prisma.JsonNullableWithAggregatesFilter<"User">
   isActive?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
@@ -410,11 +522,20 @@ export type UserCreateInput = {
   fullName: string
   email: string
   phone?: string | null
+  resumeUrl?: string | null
+  linkedInUrl?: string | null
+  githubUrl?: string | null
+  portfolioUrl?: string | null
+  twitterUrl?: string | null
   passwordHash?: string | null
   authProvider?: $Enums.AuthProvider
+  providerId?: string | null
   emailVerified?: boolean
   phoneVerified?: boolean
   lastLoginAt?: Date | string | null
+  emailVerificationToken?: string | null
+  emailVerificationTokenExpiresAt?: Date | string | null
+  tokenVersion?: number
   userType?: $Enums.UserType
   profile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
@@ -431,11 +552,20 @@ export type UserUncheckedCreateInput = {
   fullName: string
   email: string
   phone?: string | null
+  resumeUrl?: string | null
+  linkedInUrl?: string | null
+  githubUrl?: string | null
+  portfolioUrl?: string | null
+  twitterUrl?: string | null
   passwordHash?: string | null
   authProvider?: $Enums.AuthProvider
+  providerId?: string | null
   emailVerified?: boolean
   phoneVerified?: boolean
   lastLoginAt?: Date | string | null
+  emailVerificationToken?: string | null
+  emailVerificationTokenExpiresAt?: Date | string | null
+  tokenVersion?: number
   userType?: $Enums.UserType
   profile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
@@ -452,11 +582,20 @@ export type UserUpdateInput = {
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedInUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  portfolioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  twitterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  providerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   phoneVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
   profile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -473,11 +612,20 @@ export type UserUncheckedUpdateInput = {
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedInUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  portfolioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  twitterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  providerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   phoneVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
   profile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -494,11 +642,20 @@ export type UserCreateManyInput = {
   fullName: string
   email: string
   phone?: string | null
+  resumeUrl?: string | null
+  linkedInUrl?: string | null
+  githubUrl?: string | null
+  portfolioUrl?: string | null
+  twitterUrl?: string | null
   passwordHash?: string | null
   authProvider?: $Enums.AuthProvider
+  providerId?: string | null
   emailVerified?: boolean
   phoneVerified?: boolean
   lastLoginAt?: Date | string | null
+  emailVerificationToken?: string | null
+  emailVerificationTokenExpiresAt?: Date | string | null
+  tokenVersion?: number
   userType?: $Enums.UserType
   profile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
@@ -515,11 +672,20 @@ export type UserUpdateManyMutationInput = {
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedInUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  portfolioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  twitterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  providerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   phoneVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
   profile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -536,11 +702,20 @@ export type UserUncheckedUpdateManyInput = {
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedInUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  portfolioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  twitterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  providerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   phoneVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
   profile?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -557,11 +732,20 @@ export type UserCountOrderByAggregateInput = {
   fullName?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  resumeUrl?: Prisma.SortOrder
+  linkedInUrl?: Prisma.SortOrder
+  githubUrl?: Prisma.SortOrder
+  portfolioUrl?: Prisma.SortOrder
+  twitterUrl?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   authProvider?: Prisma.SortOrder
+  providerId?: Prisma.SortOrder
   emailVerified?: Prisma.SortOrder
   phoneVerified?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
+  emailVerificationToken?: Prisma.SortOrder
+  emailVerificationTokenExpiresAt?: Prisma.SortOrder
+  tokenVersion?: Prisma.SortOrder
   userType?: Prisma.SortOrder
   profile?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -574,6 +758,7 @@ export type UserCountOrderByAggregateInput = {
 }
 
 export type UserAvgOrderByAggregateInput = {
+  tokenVersion?: Prisma.SortOrder
   onboardingStep?: Prisma.SortOrder
 }
 
@@ -582,11 +767,20 @@ export type UserMaxOrderByAggregateInput = {
   fullName?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  resumeUrl?: Prisma.SortOrder
+  linkedInUrl?: Prisma.SortOrder
+  githubUrl?: Prisma.SortOrder
+  portfolioUrl?: Prisma.SortOrder
+  twitterUrl?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   authProvider?: Prisma.SortOrder
+  providerId?: Prisma.SortOrder
   emailVerified?: Prisma.SortOrder
   phoneVerified?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
+  emailVerificationToken?: Prisma.SortOrder
+  emailVerificationTokenExpiresAt?: Prisma.SortOrder
+  tokenVersion?: Prisma.SortOrder
   userType?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   onboardingStep?: Prisma.SortOrder
@@ -600,11 +794,20 @@ export type UserMinOrderByAggregateInput = {
   fullName?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  resumeUrl?: Prisma.SortOrder
+  linkedInUrl?: Prisma.SortOrder
+  githubUrl?: Prisma.SortOrder
+  portfolioUrl?: Prisma.SortOrder
+  twitterUrl?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   authProvider?: Prisma.SortOrder
+  providerId?: Prisma.SortOrder
   emailVerified?: Prisma.SortOrder
   phoneVerified?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
+  emailVerificationToken?: Prisma.SortOrder
+  emailVerificationTokenExpiresAt?: Prisma.SortOrder
+  tokenVersion?: Prisma.SortOrder
   userType?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   onboardingStep?: Prisma.SortOrder
@@ -614,6 +817,7 @@ export type UserMinOrderByAggregateInput = {
 }
 
 export type UserSumOrderByAggregateInput = {
+  tokenVersion?: Prisma.SortOrder
   onboardingStep?: Prisma.SortOrder
 }
 
@@ -637,16 +841,16 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
-export type EnumUserTypeFieldUpdateOperationsInput = {
-  set?: $Enums.UserType
-}
-
 export type IntFieldUpdateOperationsInput = {
   set?: number
   increment?: number
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type EnumUserTypeFieldUpdateOperationsInput = {
+  set?: $Enums.UserType
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -660,11 +864,20 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   fullName?: boolean
   email?: boolean
   phone?: boolean
+  resumeUrl?: boolean
+  linkedInUrl?: boolean
+  githubUrl?: boolean
+  portfolioUrl?: boolean
+  twitterUrl?: boolean
   passwordHash?: boolean
   authProvider?: boolean
+  providerId?: boolean
   emailVerified?: boolean
   phoneVerified?: boolean
   lastLoginAt?: boolean
+  emailVerificationToken?: boolean
+  emailVerificationTokenExpiresAt?: boolean
+  tokenVersion?: boolean
   userType?: boolean
   profile?: boolean
   isActive?: boolean
@@ -681,11 +894,20 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   fullName?: boolean
   email?: boolean
   phone?: boolean
+  resumeUrl?: boolean
+  linkedInUrl?: boolean
+  githubUrl?: boolean
+  portfolioUrl?: boolean
+  twitterUrl?: boolean
   passwordHash?: boolean
   authProvider?: boolean
+  providerId?: boolean
   emailVerified?: boolean
   phoneVerified?: boolean
   lastLoginAt?: boolean
+  emailVerificationToken?: boolean
+  emailVerificationTokenExpiresAt?: boolean
+  tokenVersion?: boolean
   userType?: boolean
   profile?: boolean
   isActive?: boolean
@@ -702,11 +924,20 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   fullName?: boolean
   email?: boolean
   phone?: boolean
+  resumeUrl?: boolean
+  linkedInUrl?: boolean
+  githubUrl?: boolean
+  portfolioUrl?: boolean
+  twitterUrl?: boolean
   passwordHash?: boolean
   authProvider?: boolean
+  providerId?: boolean
   emailVerified?: boolean
   phoneVerified?: boolean
   lastLoginAt?: boolean
+  emailVerificationToken?: boolean
+  emailVerificationTokenExpiresAt?: boolean
+  tokenVersion?: boolean
   userType?: boolean
   profile?: boolean
   isActive?: boolean
@@ -723,11 +954,20 @@ export type UserSelectScalar = {
   fullName?: boolean
   email?: boolean
   phone?: boolean
+  resumeUrl?: boolean
+  linkedInUrl?: boolean
+  githubUrl?: boolean
+  portfolioUrl?: boolean
+  twitterUrl?: boolean
   passwordHash?: boolean
   authProvider?: boolean
+  providerId?: boolean
   emailVerified?: boolean
   phoneVerified?: boolean
   lastLoginAt?: boolean
+  emailVerificationToken?: boolean
+  emailVerificationTokenExpiresAt?: boolean
+  tokenVersion?: boolean
   userType?: boolean
   profile?: boolean
   isActive?: boolean
@@ -739,7 +979,7 @@ export type UserSelectScalar = {
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fullName" | "email" | "phone" | "passwordHash" | "authProvider" | "emailVerified" | "phoneVerified" | "lastLoginAt" | "userType" | "profile" | "isActive" | "onboardingStep" | "languagePreference" | "notificationPrefs" | "featureFlags" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fullName" | "email" | "phone" | "resumeUrl" | "linkedInUrl" | "githubUrl" | "portfolioUrl" | "twitterUrl" | "passwordHash" | "authProvider" | "providerId" | "emailVerified" | "phoneVerified" | "lastLoginAt" | "emailVerificationToken" | "emailVerificationTokenExpiresAt" | "tokenVersion" | "userType" | "profile" | "isActive" | "onboardingStep" | "languagePreference" | "notificationPrefs" | "featureFlags" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
@@ -749,11 +989,20 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     fullName: string
     email: string
     phone: string | null
+    resumeUrl: string | null
+    linkedInUrl: string | null
+    githubUrl: string | null
+    portfolioUrl: string | null
+    twitterUrl: string | null
     passwordHash: string | null
     authProvider: $Enums.AuthProvider
+    providerId: string | null
     emailVerified: boolean
     phoneVerified: boolean
     lastLoginAt: Date | null
+    emailVerificationToken: string | null
+    emailVerificationTokenExpiresAt: Date | null
+    tokenVersion: number
     userType: $Enums.UserType
     profile: runtime.JsonValue | null
     isActive: boolean
@@ -1190,11 +1439,20 @@ export interface UserFieldRefs {
   readonly fullName: Prisma.FieldRef<"User", 'String'>
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly phone: Prisma.FieldRef<"User", 'String'>
+  readonly resumeUrl: Prisma.FieldRef<"User", 'String'>
+  readonly linkedInUrl: Prisma.FieldRef<"User", 'String'>
+  readonly githubUrl: Prisma.FieldRef<"User", 'String'>
+  readonly portfolioUrl: Prisma.FieldRef<"User", 'String'>
+  readonly twitterUrl: Prisma.FieldRef<"User", 'String'>
   readonly passwordHash: Prisma.FieldRef<"User", 'String'>
   readonly authProvider: Prisma.FieldRef<"User", 'AuthProvider'>
+  readonly providerId: Prisma.FieldRef<"User", 'String'>
   readonly emailVerified: Prisma.FieldRef<"User", 'Boolean'>
   readonly phoneVerified: Prisma.FieldRef<"User", 'Boolean'>
   readonly lastLoginAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly emailVerificationToken: Prisma.FieldRef<"User", 'String'>
+  readonly emailVerificationTokenExpiresAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly tokenVersion: Prisma.FieldRef<"User", 'Int'>
   readonly userType: Prisma.FieldRef<"User", 'UserType'>
   readonly profile: Prisma.FieldRef<"User", 'Json'>
   readonly isActive: Prisma.FieldRef<"User", 'Boolean'>

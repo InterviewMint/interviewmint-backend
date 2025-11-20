@@ -1,15 +1,15 @@
-interface Request { [key: string]: any }
-interface Response { [key: string]: any }
-interface NextFunction { (err?: any): void }
-type RequestHandler = (req: Request, res: Response, next: NextFunction) => any | Promise<any>;
+import { Request, Response, NextFunction, RequestHandler } from "express";
 
-const asyncHandler = (requestHandler: RequestHandler) => {
-    const typedRequestHandler = requestHandler;
+const asyncHandler = <P = {}, ResBody = any, ReqBody = any, ReqQuery = {}>(
+  requestHandler: RequestHandler<P, ResBody, ReqBody, ReqQuery>,
+): RequestHandler<P, ResBody, ReqBody, ReqQuery> => {
+  return (
+    req: Request<P, ResBody, ReqBody, ReqQuery>,
+    res: Response<ResBody>,
+    next: NextFunction,
+  ): void => {
+    Promise.resolve(requestHandler(req, res, next)).catch(next);
+  };
+};
 
-    return (req: Request, res: Response, next: NextFunction): void => {
-        Promise.resolve(typedRequestHandler(req, res, next))
-        .catch((err) => next(err))
-    }
-}
-
-export {asyncHandler}
+export { asyncHandler };
