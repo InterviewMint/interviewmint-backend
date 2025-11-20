@@ -1,6 +1,4 @@
-
-const addNewCompany = () => {
-
+class CompanyController {
+  addNewCompany = () => {};
 }
-
-export { addNewCompany };
+export default CompanyController;

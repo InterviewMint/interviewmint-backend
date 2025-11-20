@@ -1,21 +1,9 @@
-const loginUser = () => {
-
-};
-
-const registerUser = () => {
-
-};
-
-const getUserProfile = () => {
-    
+class UserController {
+  loginUser = () => {};
+  registerUser = () => {};
+  getUserProfile = () => {};
+  updateUserProfile = () => {};
+  logoutUser = () => {};
 }
 
-const updateUserProfile = () => {
-    
-}
-
-const logoutUser = () => {
-
-}
-
-export {loginUser, registerUser, getUserProfile, updateUserProfile, logoutUser };
+export default UserController;

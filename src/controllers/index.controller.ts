@@ -1,26 +1,6 @@
-import { addNewCollage } from "./collage.controller.js";
-import { addNewCompany } from "./company.controller.js";
-import { addNewJob, findJob } from "./job.controller.js";
-import {
-  getUserProfile,
-  loginUser,
-  logoutUser,
-  registerUser,
-  updateUserProfile,
-} from "./user.controller.js";
+import CollageController from "./collage.controller.js";
+import CompanyController from "./company.controller.js";
+import JobController from "./job.controller.js";
+import UserController from "./user.controller.js";
 
-export {
-  // User Controllers
-  loginUser,
-  registerUser,
-  getUserProfile,
-  updateUserProfile,
-  logoutUser,
-  // Job Controllers
-  addNewJob,
-  findJob,
-  // Collage Controllers
-  addNewCollage,
-  // Company Controllers
-  addNewCompany,
-};
+export { CollageController, CompanyController, JobController, UserController };

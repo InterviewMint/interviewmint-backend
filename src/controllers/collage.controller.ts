@@ -1,6 +1,5 @@
-
-const addNewCollage = () => {
-
+class CollageController {
+  addNewCollage = () => {};
 }
 
-export { addNewCollage };
+export default CollageController;

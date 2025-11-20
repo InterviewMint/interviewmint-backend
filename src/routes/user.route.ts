@@ -1,11 +1,5 @@
 import { Router } from "express";
-import {
-  getUserProfile,
-  loginUser,
-  logoutUser,
-  registerUser,
-  updateUserProfile,
-} from "../controllers/index.controller.js";
+import { UserController } from "../controllers/index.controller.js";
 
 /**
  * @swagger
@@ -57,6 +51,7 @@ import {
  */
 
 const router = Router();
+const userController = new UserController();
 
 /**
  * @swagger
@@ -83,7 +78,7 @@ const router = Router();
  *       409:
  *         description: Email or phone already exists
  */
-router.route("/register").post(registerUser);
+router.route("/register").post(userController.registerUser);
 
 /**
  * @swagger
@@ -109,7 +104,7 @@ router.route("/register").post(registerUser);
  *       401:
  *         description: Invalid credentials
  */
-router.route("/login").post(loginUser);
+router.route("/login").post(userController.loginUser);
 
 /**
  * @swagger
@@ -159,7 +154,10 @@ router.route("/login").post(loginUser);
  *       401:
  *         description: Not authenticated
  */
-router.route("/profile").get(getUserProfile).put(updateUserProfile);
+router
+  .route("/profile")
+  .get(userController.getUserProfile)
+  .put(userController.updateUserProfile);
 
 /**
  * @swagger
@@ -175,6 +173,6 @@ router.route("/profile").get(getUserProfile).put(updateUserProfile);
  *       401:
  *         description: Not authenticated
  */
-router.route("/logout").post(logoutUser);
+router.route("/logout").post(userController.logoutUser);
 
 export default router;

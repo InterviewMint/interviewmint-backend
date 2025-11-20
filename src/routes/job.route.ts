@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { addNewJob, findJob } from "../controllers/index.controller.js";
+import { JobController } from "../controllers/index.controller.js";
 
 const router = Router();
+const jobController = new JobController();
 
-router.route("/job").post(findJob);
-router.route("/add-new").post(addNewJob);
+router.route("/job").post(jobController.findJob);
+router.route("/add-new").post(jobController.addNewJob);
 
 export default router;

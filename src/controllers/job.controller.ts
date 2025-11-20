@@ -1,10 +1,6 @@
-
-const findJob = () => {
-
+class JobController {
+  findJob = () => {};
+  addNewJob = () => {};
 }
 
-const addNewJob = () => {
-    
-}
-
-export { findJob, addNewJob };
+export default JobController;
