@@ -26,6 +26,11 @@ Coming soon.
 
 Pull requests are welcome.
 
+## Authors
+- Yashvardhan Singh - [GitHub](https://github.com/Vardhan-ysh)
+- Shikhar Varshney - [GitHub](https://github.com/shikharvarshney)
+
+
 ## License
  
 [MIT](LICENSE)
