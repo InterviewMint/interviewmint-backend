@@ -1,22 +1,29 @@
 import { Router } from "express";
-import { CandidateController } from "../controllers/index.controller.js";
+import { UserController } from "../controllers/index.controller.js";
 import { validateBody } from "../middlewares/validateDto.js";
+import { authMiddleware } from "../middlewares/auth.middleware.js";
 import {
-  CandidateRegistrationSchema,
-  CandidateLoginEmailSchema,
-  UpdateCandidateProfileSchema,
+  setUserType,
+  requireUserType,
+} from "../middlewares/role.middleware.js";
+import { UserType } from "../generated/prisma/client.js";
+import {
+  UserRegistrationSchema,
+  UserLoginEmailSchema,
+  UpdateUserProfileSchema,
   VerifyEmailSchema,
-  CandidateGoogleAuthSchema,
-  CandidateRefreshTokenSchema,
-} from "../dto/candidate.dto.js";
+  UserGoogleAuthSchema,
+  UserRefreshTokenSchema,
+} from "../dto/user.dto.js";
 
 const router = Router();
-const candidateController = new CandidateController();
+const candidateController = new UserController();
 
 router
   .route("/register")
   .post(
-    validateBody(CandidateRegistrationSchema),
+    setUserType(UserType.CANDIDATE),
+    validateBody(UserRegistrationSchema),
     candidateController.registerEmail,
   );
 
@@ -26,34 +33,41 @@ router
 
 router
   .route("/login")
-  .post(
-    validateBody(CandidateLoginEmailSchema),
-    candidateController.loginEmail,
-  );
+  .post(validateBody(UserLoginEmailSchema), candidateController.loginEmail);
 
 router
   .route("/google")
   .post(
-    validateBody(CandidateGoogleAuthSchema),
+    setUserType(UserType.CANDIDATE),
+    validateBody(UserGoogleAuthSchema),
     candidateController.googleAuth,
   );
 
 router
   .route("/refresh")
-  .post(
-    validateBody(CandidateRefreshTokenSchema),
-    candidateController.refreshToken,
-  );
+  .post(validateBody(UserRefreshTokenSchema), candidateController.refreshToken);
 
 router
   .route("/me")
-  .get(candidateController.getUserDetails)
+  .get(
+    authMiddleware,
+    requireUserType(UserType.CANDIDATE),
+    candidateController.getUserDetails,
+  )
   .put(
-    validateBody(UpdateCandidateProfileSchema),
+    authMiddleware,
+    requireUserType(UserType.CANDIDATE),
+    validateBody(UpdateUserProfileSchema),
     candidateController.updateUserProfile,
   );
 
-router.route("/logout").post(candidateController.logoutUser);
+router
+  .route("/logout")
+  .post(
+    authMiddleware,
+    requireUserType(UserType.CANDIDATE),
+    candidateController.logoutUser,
+  );
 
 export default router;
 

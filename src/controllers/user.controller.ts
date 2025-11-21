@@ -14,12 +14,12 @@ import { User, AuthProvider, UserType } from "../generated/prisma/client.js";
 import { googleClient } from "../utils/googleClient.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import {
-  CandidateEmailRegistrationDto,
-  VerifyCandidateEmailDto,
-  CandidateLoginEmailDto,
-  CandidateGoogleAuthDto,
-  CandidateRefreshTokenDto,
-  UpdateCandidateProfileDto,
+  UserEmailRegistrationDto,
+  VerifyUserEmailDto,
+  UserLoginEmailDto,
+  UserGoogleAuthDto,
+  UserRefreshTokenDto,
+  UpdateUserProfileDto,
 } from "../dto/index.dto.js";
 import { statusCodes } from "../utils/constants.js";
 
@@ -28,11 +28,11 @@ const emailExpiryMinutes = parseInt(
   10,
 );
 
-class CandidateController {
+class UserController {
   /// This method handles candidate registration via email
   registerEmail = asyncHandler(
     async (
-      req: Request<{}, {}, CandidateEmailRegistrationDto>,
+      req: Request<{}, {}, UserEmailRegistrationDto>,
       res: Response,
       next: NextFunction,
     ) => {
@@ -48,6 +48,7 @@ class CandidateController {
       const verificationToken = generateToken();
       const expiresAt = new Date(Date.now() + emailExpiryMinutes * 60 * 1000);
 
+      const requestedUserType = req.userTypeOverride;
       let user;
       if (
         existing &&
@@ -62,7 +63,7 @@ class CandidateController {
             emailVerificationToken: verificationToken,
             emailVerificationTokenExpiresAt: expiresAt,
             authProvider: AuthProvider.EMAIL,
-            userType: UserType.CANDIDATE,
+            userType: requestedUserType!,
             updatedAt: new Date(),
           },
         });
@@ -76,7 +77,7 @@ class CandidateController {
             emailVerified: false,
             emailVerificationToken: verificationToken,
             emailVerificationTokenExpiresAt: expiresAt,
-            userType: UserType.CANDIDATE,
+            userType: requestedUserType!,
             createdAt: new Date(),
             updatedAt: new Date(),
           },
@@ -105,7 +106,7 @@ class CandidateController {
   /// This method handles candidate email verification
   verifyEmail = asyncHandler(
     async (
-      req: Request<{}, {}, VerifyCandidateEmailDto>,
+      req: Request<{}, {}, VerifyUserEmailDto>,
       res: Response,
       next: NextFunction,
     ) => {
@@ -137,11 +138,7 @@ class CandidateController {
         },
       });
 
-      const authPayload = {
-        userId: updated.id,
-        tokenVersion: updated.tokenVersion,
-      };
-      const authResponse = buildAuthResponse(updated, authPayload);
+      const authResponse = buildAuthResponse(updated);
 
       res.cookie("refreshToken", authResponse.refreshToken);
       res.cookie("accessToken", authResponse.accessToken);
@@ -162,7 +159,7 @@ class CandidateController {
   /// This method handles candidate login via email
   loginEmail = asyncHandler(
     async (
-      req: Request<{}, {}, CandidateLoginEmailDto>,
+      req: Request<{}, {}, UserLoginEmailDto>,
       res: Response,
       next: NextFunction,
     ) => {
@@ -187,10 +184,7 @@ class CandidateController {
         throw new ApiError(statusCodes.UNAUTHORIZED, "Invalid credentials");
       }
 
-      const authResponse = buildAuthResponse(user, {
-        tokenVersion: user.tokenVersion,
-        userId: user.id,
-      });
+      const authResponse = buildAuthResponse(user);
 
       res.cookie("refreshToken", authResponse.refreshToken);
       res.cookie("accessToken", authResponse.accessToken);
@@ -206,7 +200,7 @@ class CandidateController {
 
   googleAuth = asyncHandler(
     async (
-      req: Request<{}, {}, CandidateGoogleAuthDto>,
+      req: Request<{}, {}, UserGoogleAuthDto>,
       res: Response,
       next: NextFunction,
     ) => {
@@ -234,6 +228,8 @@ class CandidateController {
       const email = payload.email;
       const name = payload.name ?? payload.given_name ?? null;
 
+      const requestedUserType = req.userTypeOverride;
+
       let user = await prisma.user.findFirst({
         where: {
           OR: [
@@ -249,6 +245,7 @@ class CandidateController {
             email,
             fullName: name ?? "Google User",
             authProvider: AuthProvider.GOOGLE,
+            userType: requestedUserType!,
             providerId: googleId,
             emailVerified: true,
             createdAt: new Date(),
@@ -269,8 +266,7 @@ class CandidateController {
         }
       }
 
-      const authPayload = { userId: user.id, tokenVersion: user.tokenVersion };
-      const authResponse = buildAuthResponse(user, authPayload);
+      const authResponse = buildAuthResponse(user);
 
       res.cookie("refreshToken", authResponse.refreshToken);
       res.cookie("accessToken", authResponse.accessToken);
@@ -290,7 +286,7 @@ class CandidateController {
 
   refreshToken = asyncHandler(
     async (
-      req: Request<{}, {}, CandidateRefreshTokenDto>,
+      req: Request<{}, {}, UserRefreshTokenDto>,
       res: Response,
       next: NextFunction,
     ) => {
@@ -308,8 +304,7 @@ class CandidateController {
         throw new ApiError(statusCodes.UNAUTHORIZED, "Invalid refresh token");
       }
 
-      const authPayload = { userId: user.id, tokenVersion: user.tokenVersion };
-      const authResponse = buildAuthResponse(user, authPayload);
+      const authResponse = buildAuthResponse(user);
 
       res.cookie("refreshToken", authResponse.refreshToken);
       res.cookie("accessToken", authResponse.accessToken);
@@ -365,21 +360,11 @@ class CandidateController {
   /// This method retrieves the authenticated user's details
   getUserDetails = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
-      const token =
-        req.cookies["accessToken"] ||
-        req.headers["authorization"]?.split(" ")[1];
-
-      if (!token) {
+      const auth = req.auth;
+      if (!auth?.userId) {
         throw new ApiError(statusCodes.UNAUTHORIZED, "Not authenticated");
       }
-
-      const { userId } = verifyAccessToken(token);
-
-      if (!userId) {
-        throw new ApiError(statusCodes.UNAUTHORIZED, "Invalid token");
-      }
-
-      const user = await prisma.user.findUnique({ where: { id: userId } });
+      const user = await prisma.user.findUnique({ where: { id: auth.userId } });
 
       if (!user) {
         throw new ApiError(statusCodes.NOT_FOUND, "User not found");
@@ -393,19 +378,13 @@ class CandidateController {
   );
   updateUserProfile = asyncHandler(
     async (
-      req: Request<{}, {}, UpdateCandidateProfileDto>,
+      req: Request<{}, {}, UpdateUserProfileDto>,
       res: Response,
       next: NextFunction,
     ) => {
-      const token =
-        req.cookies["accessToken"] ||
-        req.headers["authorization"]?.split(" ")[1];
-      if (!token) {
+      const auth = req.auth;
+      if (!auth?.userId) {
         throw new ApiError(statusCodes.UNAUTHORIZED, "Not authenticated");
-      }
-      const { userId } = verifyAccessToken(token);
-      if (!userId) {
-        throw new ApiError(statusCodes.UNAUTHORIZED, "Invalid token");
       }
       const updateData = req.body;
 
@@ -414,7 +393,7 @@ class CandidateController {
       );
 
       const updatedUser = await prisma.user.update({
-        where: { id: userId },
+        where: { id: auth.userId },
         data: {
           ...filteredUpdateData,
           updatedAt: new Date(),
@@ -435,4 +414,4 @@ class CandidateController {
   );
 }
 
-export default CandidateController;
+export default UserController;

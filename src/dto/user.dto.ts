@@ -1,24 +1,22 @@
 import { z } from "zod";
 
 // Registration with email and password
-export const CandidateRegistrationSchema = z.object({
+export const UserRegistrationSchema = z.object({
   email: z.email(),
   password: z.string().min(8),
   fullName: z.string().optional(),
 });
-export type CandidateEmailRegistrationDto = z.infer<
-  typeof CandidateRegistrationSchema
->;
+export type UserEmailRegistrationDto = z.infer<typeof UserRegistrationSchema>;
 
 // Login with email and password
-export const CandidateLoginEmailSchema = z.object({
+export const UserLoginEmailSchema = z.object({
   email: z.email(),
   password: z.string(),
 });
-export type CandidateLoginEmailDto = z.infer<typeof CandidateLoginEmailSchema>;
+export type UserLoginEmailDto = z.infer<typeof UserLoginEmailSchema>;
 
 // Update user profile
-export const UpdateCandidateProfileSchema = z
+export const UpdateUserProfileSchema = z
   .object({
     fullName: z.string().min(1).optional(),
     phone: z
@@ -38,27 +36,22 @@ export const UpdateCandidateProfileSchema = z
   .refine((data) => Object.keys(data).length > 0, {
     message: "At least one field must be provided to update.",
   });
-export type UpdateCandidateProfileDto = z.infer<
-  typeof UpdateCandidateProfileSchema
->;
+export type UpdateUserProfileDto = z.infer<typeof UpdateUserProfileSchema>;
 
 // Verify email address
 export const VerifyEmailSchema = z.object({
   token: z.string(),
 });
-export type VerifyCandidateEmailDto = z.infer<typeof VerifyEmailSchema>;
+export type VerifyUserEmailDto = z.infer<typeof VerifyEmailSchema>;
 
 // Google OAuth authentication
-export const CandidateGoogleAuthSchema = z.object({
+export const UserGoogleAuthSchema = z.object({
   idToken: z.string(),
 });
-export type CandidateGoogleAuthDto = z.infer<typeof CandidateGoogleAuthSchema>;
+export type UserGoogleAuthDto = z.infer<typeof UserGoogleAuthSchema>;
 
 // Refresh token
-export const CandidateRefreshTokenSchema = z.object({
+export const UserRefreshTokenSchema = z.object({
   refreshToken: z.string().optional(),
 });
-export type CandidateRefreshTokenDto = z.infer<
-  typeof CandidateRefreshTokenSchema
->;
-
+export type UserRefreshTokenDto = z.infer<typeof UserRefreshTokenSchema>;
