@@ -28,7 +28,7 @@ Pull requests are welcome.
 
 ## Authors
 - Yashvardhan Singh - [GitHub](https://github.com/Vardhan-ysh)
-- Shikhar Varshney - [GitHub](https://github.com/shikharvarshney)
+- Shikhar Varshney - [GitHub](https://github.com/shikhar-4739)
 
 
 ## License
